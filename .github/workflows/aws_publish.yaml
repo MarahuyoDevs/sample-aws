@@ -49,6 +49,11 @@ jobs:
         run: |
           cd dist/lambda
           zip -x '*.pyc' -r ../lambda.zip .
+      
+      - name: tite
+        run: |
+          echo "Secret value: ${{ secrets.AWS_LAMBDA_ROLE_PUBLISHER }}" 
+          #check lang pre
             
       - name: Deploy Lambda function
         run: |
@@ -57,7 +62,7 @@ jobs:
             --runtime python3.12.x \
             --handler sample_aws.handler.handler \
             --zip-file fileb://lambda.zip \ 
-            --role arn:aws:iam::${{ secrets.AWS_LAMBDA_ROLE_PUBLISHER }}:role/lambda-publisher
+            --role arn:aws:iam::533266992068:role/lambda-publisher-test
 
 
 
