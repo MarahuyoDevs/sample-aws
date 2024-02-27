@@ -17,13 +17,6 @@ jobs:
         with:
           python-version: 3.12
       
-      - name: Set up AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-southeast-1
-        
       - name: Install pipx
         run: |
           python3.12 -m pip install --upgrade pip
@@ -50,20 +43,19 @@ jobs:
           cd dist/lambda
           zip -x '*.pyc' -r ../lambda.zip .
       
-      - name: tite
-        run: |
-          echo "Secret value: ${{ secrets.AWS_LAMBDA_ROLE_PUBLISHER }}" 
-          #check lang pre
-            
-      - name: Deploy Lambda function
-        run: |
-          aws lambda create-function \
-            --function-name sample_aws \
-            --runtime python3.12.x \
-            --handler sample_aws.handler.handler \
-            --zip-file fileb://lambda.zip \ 
-            --role arn:aws:iam::533266992068:role/lambda-publisher-test
-
+      - name: Deploy AWS Lambda
+        uses: appleboy/lambda-action@v0.1.9
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ap-southeast-1 
+          function_name: sample_aws
+          zip_file: file://lambda.zip
+          memory_size: 128
+          timeout: 10
+          handler: sample_aws.handler.handler
+          role: arn:aws:iam::533266992068:role/lambda-publisher-test
+          runtime: python3.12
 
 
 
