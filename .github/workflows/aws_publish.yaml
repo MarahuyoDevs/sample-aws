@@ -50,7 +50,7 @@ jobs:
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ap-southeast-1 
           function_name: sample_aws
-          zip_file: file://lambda.zip
+          zip_file: lambda.zip
           memory_size: 128
           timeout: 10
           handler: sample_aws.handler.handler
