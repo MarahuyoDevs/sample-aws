@@ -49,14 +49,19 @@ jobs:
         run: |
           cd dist/lambda
           zip -x '*.pyc' -r ../lambda.zip .
-
+      - name: Create IAM role
+        run: |
+          aws iam create-role \
+            --role-name lambda-role \
+            --assume-role-policy-document '{"Version": "2012-10-17","Statement": [{ "Effect": "Allow", "Principal": {"Service": "lambda.amazonaws.com"}, "Action": "sts:AssumeRole"}]}'
       - name: Deploy Lambda function
         run: |
           aws lambda create-function \
             --function-name sample_aws \
             --runtime python3.12.x \
             --handler sample_aws.handler.handler \
-            --zip-file fileb://lambda.zip
+            --zip-file fileb://lambda.zip \ 
+            --role arn:aws:iam::123456789012:role/lambda-role
 
 
 
