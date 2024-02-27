@@ -6,7 +6,7 @@ app = Starlette()
 
 
 async def homepage(request):
-    return JSONResponse({"hello": "world"})
+    return JSONResponse({"hello": "MHELL"})
 
 
 app.add_route("/", homepage, methods=["GET"])

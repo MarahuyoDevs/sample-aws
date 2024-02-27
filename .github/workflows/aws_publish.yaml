@@ -54,11 +54,10 @@ jobs:
           memory_size: 128
           timeout: 10
           handler: sample_aws.handler.handler
-          role: arn:aws:iam::533266992068:role/lambda-publisher
+          role: ${{ secrets.AWS_LAMBDA_ROLE_PUBLISHER }}
           runtime: python3.12
 
-
-
+eyy
 
 
 
